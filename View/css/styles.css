@@ -1,0 +1,32 @@
+.navbar-brand {
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+}
+
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.bg-dark {
+    background-color: #1a1a1a !important;
+}
+
+.text-warning {
+    color: #d4af37 !important; /* Un tono dorado más elegante */
+}
+
+.btn-warning {
+    background-color: #d4af37 !important;
+    border-color: #d4af37 !important;
+    color: #1a1a1a !important;
+}
+
+.btn-warning:hover {
+    background-color: #baa02a !important;
+    border-color: #baa02a !important;
+}
