@@ -19,6 +19,11 @@ class ModeloPeluqueria {
         return nuevaCita;
     }
 
+    eliminarCita(citaId) {
+        this.citas = this.citas.filter(cita => cita.id != citaId);
+        this.guardar();
+    }
+
     guardar() {
         localStorage.setItem('glamour_clientes', JSON.stringify(this.clientes));
         localStorage.setItem('glamour_citas', JSON.stringify(this.citas));

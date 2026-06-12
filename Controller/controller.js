@@ -7,7 +7,6 @@ class ControladorPeluqueria {
     init() {
         this.actualizarVistas();
         
-        // Manejar Registro Cliente
         document.getElementById('formCliente')?.addEventListener('submit', (e) => {
             e.preventDefault();
             const nombre = document.getElementById('nombreCliente').value;
@@ -15,10 +14,9 @@ class ControladorPeluqueria {
             this.modelo.agregarCliente(nombre, tel);
             e.target.reset();
             this.actualizarVistas();
-            alert('¡Cliente registrado!');
+            alert('¡Cliente registrado con éxito!');
         });
 
-        // Manejar Reserva Cita
         document.getElementById('formCita')?.addEventListener('submit', (e) => {
             e.preventDefault();
             const cId = document.getElementById('selectCliente').value;
@@ -37,13 +35,11 @@ class ControladorPeluqueria {
         const tabla = document.getElementById('tablaAgenda');
         if(!select || !tabla) return;
 
-        // Actualizar Select de Clientes
         select.innerHTML = '<option value="">-- Seleccionar --</option>';
         this.modelo.clientes.forEach(c => {
             select.innerHTML += `<option value="${c.id}">${c.nombre}</option>`;
         });
 
-        // Actualizar Tabla Agenda
         tabla.innerHTML = '';
         document.getElementById('noData').style.display = this.modelo.citas.length ? 'none' : 'block';
         document.getElementById('countCitas').innerText = `${this.modelo.citas.length} Citas`;
@@ -55,8 +51,25 @@ class ControladorPeluqueria {
                     <td><span class="badge bg-secondary">${cita.servicio}</span></td>
                     <td>${cita.fecha} | ${cita.hora}</td>
                     <td><span class="text-success"><i class="fa-solid fa-circle-check me-1"></i>Confirmada</span></td>
+                    <td>
+                        <button class="btn btn-danger btn-sm py-0 px-2 btn-eliminar" data-id="${cita.id}">
+                            <i class="fa-solid fa-trash-can small"></i> Cancelar
+                        </button>
+                    </td>
                 </tr>
             `;
+        });
+
+        document.querySelectorAll('.btn-eliminar').forEach(boton => {
+            boton.addEventListener('click', (e) => {
+                const botonActual = e.target.closest('.btn-eliminar');
+                const idCita = botonActual.getAttribute('data-id');
+                
+                if (confirm('¿Estás seguro de que deseas cancelar esta cita?')) {
+                    this.modelo.eliminarCita(idCita);
+                    this.actualizarVistas();
+                }
+            });
         });
     }
 }
