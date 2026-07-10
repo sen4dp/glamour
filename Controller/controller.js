@@ -28,6 +28,15 @@ class ControladorPeluqueria {
             this.actualizarVistas();
             alert('¡Cita agendada con éxito!');
         });
+
+        // Event listeners para historial
+        document.getElementById('buscarHistorial')?.addEventListener('input', (e) => {
+            this.actualizarHistorial();
+        });
+
+        document.getElementById('ordenarHistorial')?.addEventListener('change', (e) => {
+            this.actualizarHistorial();
+        });
     }
 
     actualizarVistas() {
@@ -52,6 +61,9 @@ class ControladorPeluqueria {
                     <td>${cita.fecha} | ${cita.hora}</td>
                     <td><span class="text-success"><i class="fa-solid fa-circle-check me-1"></i>Confirmada</span></td>
                     <td>
+                        <button class="btn btn-success btn-sm py-0 px-2 btn-completar me-1" data-id="${cita.id}">
+                            <i class="fa-solid fa-check small"></i> Completar
+                        </button>
                         <button class="btn btn-danger btn-sm py-0 px-2 btn-eliminar" data-id="${cita.id}">
                             <i class="fa-solid fa-trash-can small"></i> Cancelar
                         </button>
@@ -60,6 +72,7 @@ class ControladorPeluqueria {
             `;
         });
 
+        // Event listeners para eliminar citas
         document.querySelectorAll('.btn-eliminar').forEach(boton => {
             boton.addEventListener('click', (e) => {
                 const botonActual = e.target.closest('.btn-eliminar');
@@ -71,5 +84,72 @@ class ControladorPeluqueria {
                 }
             });
         });
+
+        // Event listeners para completar citas
+        document.querySelectorAll('.btn-completar').forEach(boton => {
+            boton.addEventListener('click', (e) => {
+                const botonActual = e.target.closest('.btn-completar');
+                const idCita = botonActual.getAttribute('data-id');
+                
+                if (confirm('¿Marcar esta cita como completada?')) {
+                    this.modelo.completarCita(idCita);
+                    this.actualizarVistas();
+                }
+            });
+        });
+
+        // Actualizar historial
+        this.actualizarHistorial();
+    }
+
+    actualizarHistorial() {
+        const tablaHistorial = document.getElementById('tablaHistorial');
+        const noDataHistorial = document.getElementById('noHistorialData');
+        const buscarInput = document.getElementById('buscarHistorial');
+        const ordenSelect = document.getElementById('ordenarHistorial');
+
+        if (!tablaHistorial) return;
+
+        const terminoBusqueda = buscarInput ? buscarInput.value : '';
+        const orden = ordenSelect ? ordenSelect.value : 'fecha-desc';
+
+        const historialFiltrado = this.modelo.obtenerHistorialOrdenado(orden, terminoBusqueda);
+
+        tablaHistorial.innerHTML = '';
+
+        if (historialFiltrado.length === 0) {
+            noDataHistorial.style.display = 'block';
+        } else {
+            noDataHistorial.style.display = 'none';
+            
+            historialFiltrado.forEach(item => {
+                tablaHistorial.innerHTML += `
+                    <tr>
+                        <td class="ps-3 fw-bold">${item.cliente}</td>
+                        <td><span class="badge bg-secondary">${item.servicio}</span></td>
+                        <td>${item.fecha}</td>
+                        <td>${item.hora}</td>
+                        <td>
+                            <button class="btn btn-eliminar-historial btn-sm" data-id="${item.id}" title="Eliminar del historial">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            // Event listeners para eliminar del historial
+            document.querySelectorAll('.btn-eliminar-historial').forEach(boton => {
+                boton.addEventListener('click', (e) => {
+                    const botonActual = e.target.closest('.btn-eliminar-historial');
+                    const idItem = botonActual.getAttribute('data-id');
+                    
+                    if (confirm('¿Estás seguro de que deseas eliminar esta cita del historial permanentemente?')) {
+                        this.modelo.eliminarDelHistorial(idItem);
+                        this.actualizarHistorial();
+                    }
+                });
+            });
+        }
     }
 }

@@ -76,7 +76,7 @@
             </div>
 
             <div class="col-md-8">
-                <div class="card border-0 shadow-sm h-100">
+                <div class="card border-0 shadow-sm mb-4">
                     <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
                         <h5 class="mb-0 fw-bold"><i class="fa-solid fa-list-ul text-warning me-2"></i>Agenda de Servicios</h5>
                         <span class="badge bg-dark" id="countCitas">0 Citas</span>
@@ -98,6 +98,47 @@
                         </div>
                         <div id="noData" class="text-center py-5">
                             <p class="text-muted italic">No hay citas registradas aún.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN DE HISTORIAL -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h5 class="mb-0 fw-bold"><i class="fa-solid fa-history text-warning me-2"></i>Historial de Citas Completadas</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Filtros y búsqueda -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <input type="text" id="buscarHistorial" class="form-control" placeholder="🔍 Buscar por nombre de cliente...">
+                            </div>
+                            <div class="col-md-6">
+                                <select id="ordenarHistorial" class="form-select">
+                                    <option value="fecha-desc">Fecha (Más reciente primero)</option>
+                                    <option value="fecha-asc">Fecha (Más antigua primero)</option>
+                                    <option value="nombre-asc">Nombre (A-Z)</option>
+                                    <option value="nombre-desc">Nombre (Z-A)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th class="ps-3">Cliente</th>
+                                        <th>Servicio</th>
+                                        <th>Fecha</th>
+                                        <th>Hora</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaHistorial"></tbody>
+                            </table>
+                        </div>
+                        <div id="noHistorialData" class="text-center py-4">
+                            <p class="text-muted italic">No hay citas completadas en el historial.</p>
                         </div>
                     </div>
                 </div>

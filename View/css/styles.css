@@ -17,7 +17,7 @@
 }
 
 .text-warning {
-    color: #d4af37 !important; /* Un tono dorado más elegante */
+    color: #d4af37 !important;
 }
 
 .btn-warning {
@@ -29,4 +29,37 @@
 .btn-warning:hover {
     background-color: #baa02a !important;
     border-color: #baa02a !important;
+}
+
+/* Estilos para el historial */
+.btn-completar {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+
+.btn-completar:hover {
+    background-color: #218838;
+    border-color: #218838;
+}
+
+.btn-eliminar-historial {
+    color: #dc3545;
+    background: transparent;
+    border: none;
+}
+
+.btn-eliminar-historial:hover {
+    color: #c82333;
+}
+
+.table thead th {
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge {
+    font-weight: 500;
 }
